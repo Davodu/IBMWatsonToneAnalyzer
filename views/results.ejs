@@ -1,0 +1,100 @@
+ <!DOCTYPE html>
+ <html>
+ <head>
+ 	<meta charset="UTF-8">
+ 	<title>Tone Analysis</title>
+ 	<!-- Bootstrap Theme -->
+ 	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/flatly/bootstrap.min.css" rel="stylesheet"/>
+ 	<link href="./stylesheets/results.css" rel="stylesheet"/>
+ </head>
+ <body>
+
+ <div class="container">
+ 	<section class="row">
+ 		<h1 class="header">Tone Analysis Overview</h1>
+ 		<div class="col-xs-12 well emoji-container">
+ 			<div class="emotion-wrapper col-xs-2 col-xs-offset-1">
+ 				<img src="./images/anger.png"/>
+ 				<h3>Anger</h3>
+ 				<h3><%= data.tone.document_tone.tone_categories[0].tones[0].score.toFixed(2) %></h3>
+ 			</div>
+ 			<div class="emotion-wrapper col-xs-2">
+ 				<img src="./images/disgust.png"/>
+ 				<h3>Disgust</h3>
+ 				<h3><%= data.tone.document_tone.tone_categories[0].tones[1].score.toFixed(2) %></h3>
+ 			</div>
+ 			<div class="emotion-wrapper col-xs-2">
+ 				<img src="./images/fear.png"/>
+ 				<h3>Fear</h3>
+ 				<h3><%= data.tone.document_tone.tone_categories[0].tones[2].score.toFixed(2) %></h3>
+ 			</div>
+ 			<div class="emotion-wrapper col-xs-2">
+ 				<img src="./images/joy.png"/>
+ 				<h3>Joy</h3>
+ 				<h3><%= data.tone.document_tone.tone_categories[0].tones[3].score.toFixed(2) %></h3>
+ 			</div>
+ 			<div class="emotion-wrapper col-xs-2">
+ 				<img src="./images/sadness.png"/>
+ 				<h3>Sadness</h3>
+ 				<h3><%= data.tone.document_tone.tone_categories[0].tones[4].score.toFixed(2) %></h3>
+ 			</div>
+
+ 		</div>
+ 	</section>
+ 	<section class="row">
+ 		<h1 class="header">Breakdown by Sentence</h1>
+ 		<div class="row">
+			<div class="filter-select col-xs-3">
+				<h2>Emotional Tone</h2>
+			    <ul class="nav nav-pills nav-stacked" data-tabs="tabs">
+	                <li class="active"><a href="#anger" data-toggle="tab">Anger</a></li>
+	                <li><a href="#disgust" data-toggle="tab">Disgust</a></li>
+	                <li><a href="#fear" data-toggle="tab">Fear</a></li>
+	                <li><a href="#joy" data-toggle="tab">Joy</a></li>
+	                <li><a href="#sadness" data-toggle="tab">Sadness</a></li>
+					<!--removed spelling/grammar-->
+	            </ul>
+			</div>
+
+			<div class="display-results col-xs-6">
+			    <ul class="nav nav-tabs" data-tabs="tabs">
+	                <li class="active"><a href="#context" data-toggle="tab">Context</a></li>
+	                <li><a href="#ranked" data-toggle="tab">Ranked by Score</a></li>
+	            </ul>
+				<div class="rectangle">
+
+					Min&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;High
+					<p></p>
+				</div>
+	            <div class="tab-content well">
+	                <div class="tab-pane active" id="context">
+	                    <p></p>
+	                </div>
+	                <div class="tab-pane" id="ranked">
+	                    <p></p>
+	                </div>
+	            </div>
+				<div class="results">
+				</div>
+			</div>
+			<div class="grade-level col-xs-3">
+				<img src="./images/bear.gif"/>
+				<h3 class="reading-level">Reading Level: <%= scoreObj.schoolLevel%></h3>
+				<h4><%= scoreObj.description %></h4>
+			</div>
+ 		</div>
+ 	</section>
+ 	<section class="row footer">
+ 		<div class="col-xs-12">
+ 			<a class="go-again btn btn-primary" href="/">Go Again</a>
+ 		</div>
+ 	</section>
+ </div>
+ 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+ 	<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+ 	<script type="text/javascript">
+ 		var data = <%-JSON.stringify(data)%>
+ 	</script>
+ 	<script type="text/javascript" src="./javascripts/results.js"> </script>
+ </body>
+ </html>

@@ -1,0 +1,173 @@
+html {
+    min-width: 700px;
+}
+
+section {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.emotion-wrapper{
+	text-align: center;
+}
+
+.emoji-container{
+	padding-top: 50px;
+}
+
+img{
+	max-width: 100%;
+}
+
+.tab-content{
+	overflow-y: scroll;
+	height: 400px;
+}
+
+.header{
+	margin-top: 80px;
+	margin-bottom: 21px;
+}
+
+.grade-level{
+	text-align: center;
+	margin-top: 42px;
+    padding-top: 8px;
+}
+
+.grade-level img{
+	max-width: 100%;
+}
+
+.reading-level{
+	font-size: 24px;
+}
+
+a:focus{
+	outline: none;
+}
+
+.footer{
+	margin-bottom: 100px;
+}
+
+.go-again{
+	display: block;
+	width: 160px;
+	margin: auto;
+}
+
+.rectangle{
+	border: none;
+	width: 150px;
+	/*height: 20px;*/
+}
+
+.sentence-wrapper{
+	width: 100%;
+	padding: 5px;
+	background: white;
+	margin: 5px 0px;
+	display: flex;
+	justify-content: center;
+	min-height: 50px;
+}
+
+.sentence-score{
+	display: inline-block;
+	width: 30%;
+	align-self: center;
+	margin-left: 10px;
+}
+
+.sentence-wrapper .sentence{
+	display: inline-block;
+	width: 70%;
+	align-self: center;
+}
+
+/*Emotion Filters*/
+.anger-min{
+	background-color: #f8d3d9;
+}
+
+.anger-low{
+	background-color: #e66577;
+}
+
+.anger-mid{
+	background-color: #dc2c43;
+}
+
+.anger-high{
+	background-color: #c11e35;
+}
+
+.disgust-min{
+	background-color: #e3efdc;
+}
+
+.disgust-low{
+	background-color: #9cc983;
+}
+
+.disgust-mid{
+	background-color: #75b350;
+}
+
+.disgust-high{
+	background-color: #67a046;
+}
+
+.fear-min{
+	background-color: #f7e6ff;
+}
+
+.fear-low{
+	background-color: #e7b3ff;
+}
+
+.fear-mid{
+	background-color: #d780ff;
+}
+
+.fear-high{
+	background-color: #c64dff;
+}
+
+.joy-min{
+	background-color: #fff2cc;
+}
+
+.joy-low{
+	background-color: #ffdf80;
+}
+
+.joy-mid{
+	background-color: #ffcd3d;
+}
+
+.joy-high{
+	background-color: #ffc61a;
+}
+
+.sadness-min{
+	background-color: #d2e7f9;
+}
+
+.sadness-low{
+	background-color: #75b9f0;
+}
+
+.sadness-mid{
+	background-color: #59acee;
+}
+
+.sadness-high{
+	background-color: #188ae7;
+}
+
+
+
+
+

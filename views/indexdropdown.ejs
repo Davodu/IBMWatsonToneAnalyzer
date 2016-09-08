@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="css/style.css">
+  <title>HackFest Team 02 Tone Analyzer</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="ct" content="<$= ct $>">
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+  <style>
+    .container {
+      width: auto;
+      border-top: 1px solid #D6D7D6;
+      padding-top: 20px;
+      display: none;
+    }
+
+    .left-box {
+      float: left;
+      width: 20%;
+      cursor: pointer;
+      background-color: #ffffff;
+    }
+
+    .redlink {
+      color: #d74108 !important;
+    }
+
+    .results-frame {
+      width: 79%;
+      float: left;
+      padding-top: 0px;
+      padding-left: 20px;
+    }
+
+    .ml-item-active {
+      border-right: #0078C1 20px solid;
+    }
+
+    .ml-item {
+      padding: 10px;
+      margin-top: 0px;
+      margin-bottom: 5px;
+      background: #f4f4f4;
+    }
+
+    .ml-item:hover {
+      background: #f4f4f4;
+    }
+
+    .base--button_submit {
+      width: 30%;
+    }
+
+    .int-hide {
+      display: none;
+    }
+
+    .arrowup {
+      background-image: url('images/icons/arrowup.svg');
+      background-repeat: no-repeat;
+      background-attachment: inherit;
+      background-position: 98% 50%;
+      background-color: #ececec;
+      background-size: 20px 20px;
+    }
+
+    .code {
+      background-image: url('images/icons/code.svg');
+      background-size: 20px 20px;
+      background-repeat: no-repeat;
+      background-attachment: inherit;
+    }
+
+    .arrowdown {
+      background-image: url('images/icons/arrowdown.svg');
+      background-repeat: no-repeat;
+      background-attachment: inherit;
+      background-position: 98% 50%;
+      background-color: #ececec;
+      background-size: 20px 20px;
+    }
+
+    .arrowup-main {
+      background-image: url('images/icons/arrowup.svg');
+      background-repeat: no-repeat;
+      background-attachment: inherit;
+      background-position: 95% 50%;
+      background-size: 1em;
+    }
+
+    .base--h1 {
+      font-size: 2.4em;
+    }
+
+    .arrowdown-main {
+      background-image: url('images/icons/arrowdown.svg');
+      background-repeat: no-repeat;
+      background-attachment: inherit;
+      background-position: 88% 50%;
+      background-size: 1em;
+    }
+
+    .add-1-result {
+      margin-top: 0px;
+    }
+
+    .right-float {
+      text-align: right;
+      margin-bottom: 10px;
+      margin-right: .5em;
+      margin-top: 0rem;
+      width: 30%;
+      float: right;
+    }
+
+    .btn-all-results-keywords,
+    .btn-all-results-entities,
+    .btn-all-results-concepts,
+    .btn-all-results-targetsentiment,
+    .btn-all-results-relations {
+      cursor: pointer;
+      color: #435D7E;
+      text-decoration: underline;
+      font-size: 1em;
+      float: left;
+      width: 20%;
+      text-align: left;
+      margin-top: 5px;
+      display: block;
+    }
+
+    .nested-relations {
+      font-size: .9em;
+    }
+
+    .output-header-tagline {
+      font-size: .9em;
+      margin-top: 5px;
+      padding-left: 1em;
+      padding-right: 1em;
+    }
+
+    .icon-hyperlink {
+      float: right;
+    }
+
+    .container-relations {
+      width: 100%;
+      border: 1px solid #e0e0e0;
+      border-bottom: 0px;
+    }
+
+    .element-relations {
+      border-bottom: 1px solid #e0e0e0;
+      margin-top: 0px;
+    }
+
+    .header-relations {
+      padding: 10px;
+      cursor: pointer;
+      margin-top: 0px;
+    }
+
+    .output {
+      background: #ffffff;
+    }
+
+    .hiden-relation {
+      display: none;
+    }
+
+    .content-relations {
+      background: #ffffff;
+      margin-top: 0rem;
+      margin-bottom: 1.5em;
+      display: none;
+      margin-top: 1.5em;
+    }
+
+    #div2,
+    #div3,
+    #div4,
+    #div5,
+    #div6,
+    #div7,
+    #div8,
+    #div9,
+    #div10,
+    #div11,
+    #div12,
+    #div13,
+    .base--table,
+    #div14,
+    .banner--row {
+      margin-top: 0px;
+    }
+
+    .banner--service-resource {
+      /*margin-left: 8%;*/
+    }
+
+    .base--h3 {
+      line-height: .8em;
+      padding-left: .5em;
+      padding-right: .5em;
+    }
+
+    .icon-reset:before {
+      color: #435D7E;
+    }
+
+    .icon-hyperlink--button {
+      color: #435D7E;
+    }
+
+    .base--a:visited {
+      color: #435D7E;
+    }
+
+    .base--a {
+      color: #435D7E;
+    }
+
+    .relations-headline {
+      padding-top: .3em;
+      font-size: 1.5em;
+    }
+
+    .footer-container {
+      margin-bottom: 4em;
+      margin-top: 4em;
+    }
+
+    .bottom-links {
+      margin-right: 1.5em;
+      float: left;
+      border: 2px solid black;
+      padding: .5em 2em .5em 2em;
+      color: #2e2e2e;
+      font-weight: bold;
+      background-color: #f4f4f4;
+      cursor: pointer;
+      -webkit-transition: background-color 1s;
+      -moz-transition: background-color 1s;
+      -ms-transition: background-color 1s;
+      -o-transition: background-color 1s;
+      transition: background-color 1s;
+    }
+
+    .bottom-links:hover {
+      background-color: #2e2e2e;
+      color: white;
+    }
+
+    .bottom-links.base--a {
+      color: #2e2e2e;
+      text-decoration: none;
+    }
+
+    .bottom-links.base--a:hover {
+      background-color: #2e2e2e;
+      color: white;
+    }
+
+    img.icons {
+      width: 20px;
+      margin-left: .5em;
+    }
+
+    .json-btn {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .API--json {
+      color: #ffffff;
+      margin-left: 1em;
+      white-space: pre-wrap;
+    }
+
+    .input--API {
+      background-color: #323232;
+      border: 2px solid #777677;
+      margin-top: 0;
+      width: 100%;
+      height: 250px;
+      overflow: overlay;
+      font-family: "Courier New", "Lucida Console", monospace;
+      overflow: auto;
+    }
+
+    .loading-gif {
+      max-width: 246px;
+      height: auto;
+      margin: auto;
+    }
+
+    .loading--icon {
+      text-align: center;
+    }
+
+    .base--code {
+      color: white;
+    }
+
+    .base--thead {
+      font-weight: bold;
+      color: #325c80;
+      border-bottom: 1px solid #d5d6d5;
+      background-color: #ffffff;
+    }
+
+    .footer-title {
+      font-size: 2.1em;
+    }
+
+    .footer-tagline {
+      font-size: 1.4em;
+      margin-top: .5em;
+      color: #2e2e2e;
+    }
+
+    .footer-banner {
+      background-image: url('images/watson-logo.svg');
+      background-position: right;
+      background-repeat: no-repeat;
+      background-size: 30em;
+      width: 992px;
+      margin: auto;
+    }
+
+    .bottom-banner {
+      border-top: 2px solid #ececec;
+      display: block;
+    }
+
+    @media (max-width: 700px) {
+      .left-box {
+        width: 100%;
+      }
+      .ml-item {
+        padding: 10px;
+      }
+      .results-frame {
+        width: 100%;
+        padding-left: 0px;
+      }
+      .btn-all-results {
+        width: 35%;
+      }
+      .footer-banner {
+        background-image: none;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+      }
+      .footer-tagline {
+        font-size: 1em;
+      }
+      .footer-title {
+        font-size: 1.5em;
+        color: #2e2e2e;
+      }
+      .footer-container {
+        margin-left: 2em;
+        margin-top: 1em;
+      }
+    }
+    .bootstraptab{
+     text-align: center;
+   }
+ </style>
+
+  <!--  <title>Tone Analyzer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/flatly/bootstrap.min.css" rel="stylesheet">
+    <link href="./stylesheets/index.css" rel="stylesheet"> -->
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  </head>
+  <body>
+
+    <!-- top level heading -->
+    <header class="_demo--heading">
+      <div class="_demo--container">
+        <a class="wordmark" href="http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/">
+          <span class="wordmark--left">IBM</span>
+          <span class="wordmark--right">INTERN HACKFEST 2016 TEAM 02 PROJECT</span>
+        </a>
+        <nav class="heading-nav" role="menubar">
+          <li class="base--li heading-nav--li" role="presentation">
+            <a class="heading-nav--item" href="#" role="menuitem">
+             Achala Chavan</a>
+           </li>
+           <li class="base--li heading-nav--li" role="presentation">
+            <a class="heading-nav--item" href="#" role="menuitem">
+             Varun Jayathirtha</a>
+           </li>
+           <li class="base--li heading-nav--li" role="presentation">
+            <a class="heading-nav--item" href="#" role="menuitem">
+              Jesse Vogel</a>
+            </li>
+            <li class="base--li heading-nav--li" role="presentation">
+              <a class="heading-nav--item" href="#" role="menuitem">
+                Davies Odu</a>
+              </li>
+            </nav>
+          </div>
+        </header>
+        <div class="_demo--banner banner">
+          <div class="_demo--container">
+            <div class="banner--service-container">
+              <div class="banner--service-icon-container">
+                <img class="banner--service-icon" src="images/service-icon.svg" alt="Tone Analyzer API Icon">
+              </div>
+              <div class="banner--service-info">
+                <h1 class="banner--service-title base--h1">
+                  <img class="banner--service-icon_INLINE" src="images/service-icon.svg" alt="Tone Analyzer API Icon">
+                  Tone analyzer with Educational grading
+                </h1>
+                <div class="banner--service-description">
+                  This app analyzes texts and outputs the educational grading, checks for spellings and grammar. Also,it uses the Watson Tone analyzer service to detect and interpret emotions, social tendencies, and language style cues 
+                  The data used in developing this was obtained from the CASA database and PDPs.
+
+                </div>
+              </div>
+            </div>
+            <div class="banner--service-resource-container">
+              <div class="banner--row">
+                <div class="banner--service-resource">
+                  <span class="icon icon-link"></span>
+                  <strong>Resources used:</strong>
+                </div>
+              </div>
+              <div class="banner--row">
+                <div class="banner--service-links">
+                  <li class="base--li banner--service-link-item">
+                    <a href="#" target="blank" class="base--a">Grammar Reference</a>
+                  </li>
+                  <li class="base--li banner--service-link-item">
+                    <a href="#" target="blank" class="base--a">Watson API Reference</a>
+                  </li>
+                  <li class="base--li banner--service-link-item">
+                    <a href="#" target="blank" class="base--a">Fork on Github</a>
+                  </li>
+                  <li class="base--li banner--service-link-item">
+                    <a href="#" target="blank" class="base--a">Deploy on Bluemix </a>
+                  </li>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- demo body -->
+        <div class="_demo--container">
+          <article class="_content base--article">
+            <div class="input">
+              <h2 class="base--h2" style = "text-align:center;">Select input data option</h2>
+              <p class="base--p input--description">Choose an example to learn how you can adjust the tone of your content to change people's perceptions, or improve its effectiveness. <a class="base--a" href="http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/tone-analyzer/index.shtml#usecases" target="new">Learn more</a>.</p>
+              <input role="radio" class="base--radio input--radio" type="radio" id="input-customer-call" name="rb" value="customer-call" checked="true">
+              <label class="base--inline-label input--radio-label" for="input-customer-call">Analyze by Products</label>
+              
+              <input role="radio" class="base--radio input--radio" type="radio" id="input-own-text" name="rb" value="own-text">
+              <label class="base--inline-label input--radio-label" for="input-own-text">Dropdown page</label>
+              <hr class="base--hr input--hr">
+
+              <div class="bootstraptab">
+                <h2>Tabs</h2>
+                <ul style = "text-align: center!important;" class="nav nav-tabs" role="tablist">
+                  <li class=""><a href="#">Analyze by Products</a></li>
+                  <li><a href="active">Your own text</a></li>
+                </ul>
+              </div>
+
+              <div class="panel">
+                <textarea class="base--textarea input--textarea" rows="7"></textarea>
+              </div>
+              <div class="input--submit-button-container">
+                <button class="base--button input--submit-button" type="submit">Analyze</button>
+              </div>
+            </div>
+
+            <div class="loading">
+              <div class="loading--loader">
+                <img src="images/loading-indicator.gif">
+              </div>
+            </div>
+
+            <div class="error">
+              <div class="error--message"></div>
+            </div>
+
+            <div class="output">
+              <h2 class="base--h2">Output</h2>
+              <p class="base--p output--document-description">The Tone Analyzer Service analyzes text at the document level and the sentence level. Use the document level analysis to get a sense of the overall tone of the document, and use the sentence level analysis to identify specific areas of your content where tones are the strongest.</p>
+              <h3 class="base--h3 output--document-title" style="padding-left: 0rem;">Document-level</h3>
+              <div class="summary--row">
+                <div class="summary--emotion">
+                  <h5 class="base--h5 summary--header">Emotion</h5>
+                  <div class="summary-emotion-graph bar-graph"></div>
+                </div>
+                <div class="summary--writing">
+                  <h5 class="base--h5 summary--header">Language Style</h5>
+                  <div class="summary-writing-graph"></div>
+                </div>
+                <div class="summary--social">
+                  <h5 class="base--h5 summary--header">Social Tendencies</h5>
+                  <div class="summary-social-graph bar-graph"></div>
+                </div>
+              </div>
+              <div class="summary--row">
+                <div class="summary--emotion-description">
+                  <p class="base--p">The Emotion graph represents the likelihood that an emotion tone is present in the text. <a class="base--a" target="_blank" href="http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/tone-analyzer/understanding-tone.shtml#emotional">Learn more</a>.</p>
+                </div>
+                <div class="summary--writing-and-social-description">
+                  <p class="base--p">The Language Style and Social Tendencies graphs represent the amount of a language or social tone present in the text. <a class="base--a" target="_blank" href="http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/tone-analyzer/understanding-tone.shtml#social">Learn more</a>.</p>
+                </div>
+              </div>
+              <div class="summary-row">
+                <span class="icon-hyperlink summary-view-code-button">
+                 <img class="icon icon-code" src="images/icons/code.svg" />
+                 <button class="base--a icon-hyperlink--button_BLANK js-toggle-summary-json" href="">
+                  <span class="js-toggle-summary-json_show">View JSON</span>
+                  <span class="js-toggle-summary-json_hide">Hide JSON</span>
+                </button>
+              </span>
+            </div>
+            <div class="summary-json js-summary-json">
+              <pre class="base--pre json--pre language-javascript">
+                <code class="base--code json--code language-javascript"></code>
+              </pre>
+            </div>
+            <h3 class="base--h3 output--sentence-title" style="padding-left: 0rem;">Sentence-level</h3>
+            <p class="base--p output--sentence-description">Identify sentences with stronger tones in context or sorted by score. Highlighted sentences indicate the likelihood of a tone present. If more than one tone is present, the stronger one is shown. Click on a sentence to see a breakdown of all tones.</p>
+            <div class="sentences">
+              <div class="sentences--filters filters">
+                <h3 class="base--h3" style="padding-left: 0rem;">Tones</h3>
+                <h4 class="base--h4">Emotion</h4>
+                <div class="filters--emotion"></div>
+
+                <h4 class="base--h4">Language</h4>
+                <div class="filters--writing"></div>
+
+                <h4 class="base--h4">Social Tendencies</h4>
+                <div class="filters--social"></div>
+              </div>
+              <div class="sentences--sentence-views sentence-views">
+                <div class="tab-panels sentence-views--tab-panels" role="tabpanel">
+                  <ul class="tab-panels--tab-list" role="tablist">
+                    <li class="tab-panels--tab-list-item base--li" role="presentation">
+                      <a class="tab-panels--tab base--a active" href="#panel-original-text" aria-controls="panel-original-text" role="tab">In context</a>
+                    </li>
+                    <li class="tab-panels--tab-list-item base--li" role="presentation">
+                      <a class="tab-panels--tab base--a" href="#panel-sentence-rank" aria-controls="panel-sentence-rank" role="tab">Ranked by score</a>
+                    </li>
+                    <li class="tab-panels--tab-list-item base--li" role="presentation">
+                      <a class="tab-panels--tab base--a" href="#panel-json" aria-controls="panel-json" role="tab">JSON</a>
+                    </li>
+                  </ul>
+                  <div class="sentence-views--tab-content tab-panels--tab-content">
+                    <div id="panel-original-text" class="sentence-views--tab-pane tab-panels--tab-pane active" role="tab-panel">
+                      <div class="original-text">
+                        <div class="original-text--legend"></div>
+                        <div class="original-text--texts-container">
+                          <div class="original-text--texts"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="panel-sentence-rank" class="sentence-views--tab-pane tab-panels--tab-pane" role="tab-panel">
+                      <div class="sentence-rank">
+                        <div class="sentence-rank--legend">
+                          <input role="checkbox" class="base--checkbox sentence-rank--checkbox" type="checkbox" id="sort-sentences" name="cb" value="">
+                          <label class="base--inline-label sentence-rank--sort" for="sort-sentences">
+                            <span class="sentence-rank--sort-ascending">Ascending<i class="icon icon-down-arrow"></i></span>
+                            <span class="sentence-rank--sort-descending">Descending<i class="icon icon-down-arrow icon_flipped"></i></span>
+                          </label>
+                        </div>
+                        <div class="sentence-rank--table-container">
+                          <table class="base--table sentence-rank--table">
+                          </table>
+                        </div>
+                        <div class="sentence-rank--small-block">
+                          <small class="base--small">
+                            In sentences_tone, each sentence_id receives a raw_score for each tone in a category.  Understand how to normalize raw scores or customize thresholds for your use case in the <a class="base--a" href="http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/tone-analyzer/">Documentation</a>.
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="panel-json" class="sentence-views--tab-pane tab-panels--tab-pane" role="tab-panel">
+                      <div class="json">
+                        <pre class="base--pre json--pre language-javascript">
+                          <code class="base--code json--code language-javascript"></code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- .tab-panels--tab-content -->
+                </div>
+                <!-- .tab-panels -->
+              </div>
+              <!-- .sentences--sentence-views -->
+            </div>
+            <!-- .sentences -->
+            <div class="output--reset icon-hyperlink">
+              <span class="icon icon-reset"></span>
+              <button class="base--a output--reset-button icon-hyperlink--button icon-hyperlink--button_BLANK" href="" type="reset">
+                Start Over
+              </button>
+            </div>
+            <div class="original-text--tooltip-container original-text--tooltip-container_hidden"></div>
+          </div>
+        </article>
+      </div>
+
+
+  <!-- <div class="container">
+      <div class="row">
+        <div class="col-sm-12 jumbotron"> -->
+          
+           <!--  <form  style = "text-align: center" id="form" action="analyze" method="post">
+            <textarea rows="4" cols="50" form="form" name="input" placeholder="place text to analyze here.."></textarea>
+          </form>
+          <input  style = "text-align:center !important " type="submit" form="form" value="Submit" class="btn btn-primary"> -->
+       <!--  </div>
+      </div>
+    </div> -->
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script> -->
+
+  </body>
+
+  </html>
